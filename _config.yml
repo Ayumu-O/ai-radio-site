@@ -1,15 +1,11 @@
 actors:
-  alice:
+  zundamon:
     image_url: /images/actors/alice.png
-    name: alice
+    name: ずんだもん
     url: http://sns.example.com/alice
-  bob:
-    image_url: /images/actors/bob.png
-    name: bob
-    url: http://sns.example.com/bob
-author: alice
-description: Example description
-description_long: Example long description
+author: zundamon
+description: ずんだもんがお送りする最新AIニュースのポッドキャストです。
+description_long: ずんだもんがお送りする最新AIニュースのポッドキャストです。
 email: info@example.com
 exclude:
   - docker
@@ -29,5 +25,5 @@ permalink: /episode/:title
 sass:
   sass_dir: css
 timezone: Asia/Tokyo
-title: Example title
+title: Zundamon AI Podcast
 url: http://example.com
