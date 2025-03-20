@@ -1,0 +1,74 @@
+name: Daily AI Radio Broadcast
+
+on:
+  schedule:
+    # 毎日朝5時に実行 (UTC 20:00, JST 5:00)
+    - cron: '0 20 * * *'
+  workflow_dispatch:  # 手動実行用
+
+jobs:
+  broadcast:
+    runs-on: ubuntu-latest
+    name: Generate and Broadcast AI Radio
+
+    env:
+      VOICEVOX_ENGINE_URL: 'http://localhost:50021'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install project
+        run: |
+          uv sync --all-extras
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Start VOICEVOX Engine
+        run: |
+          # VOICEVOXエンジンのDockerイメージを起動
+          docker run -d --rm --name voicevox -p 50021:50021 voicevox/voicevox_engine:cpu-ubuntu20.04-latest
+          # エンジンの起動を待機
+          sleep 30
+
+      - name: Generate test audio
+        run: |
+          uv run agent/tts_converter.py
+        
+      - name: Upload podcast episode
+        run: |
+          uv run agent/podcast_uploader.py --audio audio/test_episode.wav
+
+      - name: Stop VOICEVOX Engine
+        if: always()
+        run: |
+          docker stop voicevox
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+
+      - name: Commit and push changes
+        run: |
+          git add _posts/ audio/
+          git commit -m "Add podcast episode for $(date +"%Y-%m-%d")"
+          git push
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: radio-artifacts
+          path: |
+            _posts/
+            audio/
