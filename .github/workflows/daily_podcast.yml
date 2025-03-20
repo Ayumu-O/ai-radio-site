@@ -39,15 +39,15 @@ jobs:
           # VOICEVOXエンジンのDockerイメージを起動
           docker run -d --rm --name voicevox -p 50021:50021 voicevox/voicevox_engine:cpu-ubuntu20.04-latest
           # エンジンの起動を待機
-          sleep 30
+          sleep 10
 
       - name: Generate test audio
         run: |
-          uv run agent/tts_converter.py
+          uv run agent/src/tts_converter.py
         
       - name: Upload podcast episode
         run: |
-          uv run agent/podcast_uploader.py --audio audio/test_episode.wav
+          uv run agent/src/podcast_uploader.py --audio audio/test_episode.wav
 
       - name: Stop VOICEVOX Engine
         if: always()
