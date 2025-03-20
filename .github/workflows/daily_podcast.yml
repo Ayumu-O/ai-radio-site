@@ -61,6 +61,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          git checkout gh-pages
           git add _posts/ audio/
           git commit -m "Add podcast episode for $(date +"%Y-%m-%d")"
           git push
