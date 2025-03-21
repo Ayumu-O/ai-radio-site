@@ -148,6 +148,9 @@ if __name__ == "__main__":
 
     parser = ArgumentParser(description="Generate radio script from news articles")
     parser.add_argument("--script", help="Path to read the radio script")
+    parser.add_argument(
+        "--output", default="audio/test_episode.wav", help="Path to save the audio file"
+    )
     parser.add_argument("--debug", action="store_true", help="Enable debug logging")
     args = parser.parse_args()
 
@@ -180,5 +183,4 @@ if __name__ == "__main__":
         logger.info("ラジオ原稿作成完了")
 
     # 音声に変換
-    output_file = "audio/test_episode.wav"
-    text_to_speech(radio_script, output_file)
+    text_to_speech(radio_script, args.output)
