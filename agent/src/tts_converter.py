@@ -1,5 +1,3 @@
-import os
-
 import requests
 
 # VOICEVOXエンジンのURL
@@ -33,20 +31,32 @@ def text_to_speech(text, output_path):
 
 
 if __name__ == "__main__":
+    import os
+
+    from article_collector import get_today_news, rss_urls
+    from article_selector import filter_relevant_news
+    from article_summarizer import summarize_articles
+    from dotenv import load_dotenv
+    from langchain_openai import ChatOpenAI
+    from script_generator import generate_radio_script
+
+    load_dotenv()
+
     # 出力ディレクトリを作成
     os.makedirs("audio", exist_ok=True)
-
-    # サンプル原稿
-    sample_script = """
-    みなさん、おはようなのだ！ずんだもんだよ！
-    今日も「ずんだもんAIポッドキャスト」からお送りするのだ！
-    
-    今日は2023年6月1日、木曜日なのだ。
-    今日は簡単なテスト配信なのだ。本格的な配信は準備が整い次第始めるのだ！
-    
-    それでは、また明日会おうなのだ～！
-    """
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, timeout=60, max_retries=2)
+    news_entries = get_today_news(rss_urls=rss_urls)
+    print("今日のニュースリスト:", [entry["title"] for entry in news_entries])
+    print()
+    filtered_news = filter_relevant_news(llm, news_entries)
+    print("関心のあるニュースリスト:", [entry["title"] for entry in filtered_news])
+    print()
+    summarized_news = summarize_articles(llm, filtered_news)
+    print("ニュース要約完了")
+    print()
+    radio_script = generate_radio_script(llm, summarized_news)
+    print("ラジオ原稿作成完了")
 
     # 音声に変換
     output_file = "audio/test_episode.wav"
-    text_to_speech(sample_script, output_file)
+    text_to_speech(radio_script, output_file)
