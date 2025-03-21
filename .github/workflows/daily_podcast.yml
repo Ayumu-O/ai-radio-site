@@ -15,13 +15,16 @@ jobs:
       VOICEVOX_ENGINE_URL: 'http://localhost:50021'
 
     steps:
+      - name: Set up a Git safe directory
+        run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
+        
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.13.1'
           cache: 'pip'
 
       - name: Install uv
@@ -61,6 +64,9 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          ls _posts/
+          ls audio/
+          git fetch
           git checkout gh-pages
           git add _posts/ audio/
           git commit -m "Add podcast episode for $(date +"%Y-%m-%d")"
