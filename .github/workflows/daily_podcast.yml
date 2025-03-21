@@ -13,6 +13,11 @@ jobs:
 
     env:
       VOICEVOX_ENGINE_URL: 'http://localhost:50021'
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
+      LANGCHAIN_ENDPOINT: "https://api.smith.langchain.com"
+      LANGCHAIN_TRACING_V2: true
+      LANGSMITH_PROJECT: "ai-radio-site"
 
     steps:
       - name: Set up a Git safe directory
