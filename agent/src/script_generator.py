@@ -87,4 +87,6 @@ if __name__ == "__main__":
     print()
     radio_script = generate_radio_script(llm, summarized_news)
     print("ラジオ原稿:")
+    with open("radio_script.txt", "w", encoding="utf-8") as f:
+        f.write(radio_script)
     print(radio_script)
