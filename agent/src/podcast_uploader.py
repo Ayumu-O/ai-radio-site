@@ -99,7 +99,6 @@ def create_podcast_post(audio_file, title=None, description=None, content=None):
 
     # 投稿ファイル名の作成
     # 同じ日付の投稿がある場合は番号を増やしていく
-    # 同じ日付の投稿のリストを取得
     existing_posts = [f for f in os.listdir(posts_dir) if f.startswith(f"{date_str}-")]
     number = len(existing_posts) + 1
     post_filename = f"{date_str}-{number}.md"
