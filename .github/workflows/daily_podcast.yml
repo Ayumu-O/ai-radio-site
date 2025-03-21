@@ -51,7 +51,7 @@ jobs:
         run: |
           # エンジンの起動を待機
           sleep 10
-          uv run agent/src/tts_converter.py
+          uv run agent/src/tts_converter.py --script test.txt
         
       - name: Upload podcast episode
         run: |
