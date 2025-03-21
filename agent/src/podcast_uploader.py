@@ -88,7 +88,7 @@ def create_podcast_post(audio_file, title=None, description=None, content=None):
     # フロントマターの作成
     front_matter = {
         "actor_ids": ["zundamon"],
-        "audio_file_path": audio_file,
+        "audio_file_path": "/" + audio_file,
         "audio_file_size": audio_file_size,
         "date": date_time_str,
         "description": description,
