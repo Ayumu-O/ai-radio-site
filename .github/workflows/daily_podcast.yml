@@ -69,8 +69,6 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          ls _posts/
-          ls audio/
           git fetch
           git checkout gh-pages
           git add _posts/ audio/
