@@ -92,13 +92,13 @@ def create_podcast_post(audio_file, title=None, description=None, content=None):
         "audio_file_size": audio_file_size,
         "date": date_time_str,
         "description": description,
-        "duration": duration,
+        "duration": f'"{duration}"',
         "layout": "article",
         "title": f"Zundamon AI Podcast {date_str}",
     }
 
     # 投稿ファイル名の作成
-    post_filename = f"{date_str}.md"
+    post_filename = f"{date_str}-1.md"
     post_path = os.path.join(posts_dir, post_filename)
 
     # 投稿ファイルの作成
