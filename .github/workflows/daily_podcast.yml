@@ -51,11 +51,11 @@ jobs:
         run: |
           # エンジンの起動を待機
           sleep 10
-          uv run agent/src/tts_converter.py --script test.txt --output audio/test_episode2.wav
+          uv run agent/src/tts_converter.py --output audio/test_episode.wav
         
       - name: Upload podcast episode
         run: |
-          uv run agent/src/podcast_uploader.py --audio audio/test_episode2.wav
+          uv run agent/src/podcast_uploader.py --audio audio/test_episode.wav
 
       - name: Stop VOICEVOX Engine
         if: always()
